@@ -1,0 +1,3 @@
+const category = {
+    USER: 'user'
+  }
