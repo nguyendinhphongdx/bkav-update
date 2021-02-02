@@ -31,29 +31,23 @@ class UserService {
   }
 
   //POST
-  async create(fullname, password, mail, status, city, numberphone, image) {
+  async create(username, password,token,eauth,start,expire) {
     var newUser = new userModel();
-    newUser.fullname = fullname
+    newUser.username = username
     newUser.password = password
-    newUser.mail = mail
-    newUser.status = status
-    newUser.city = city
-    newUser.numberphone = numberphone
-
-    newUser.image = image
-
-    return await userModel.findOne({ mail: mail })
+    newUser.token = token
+    newUser.eauth = eauth
+    newUser.start = start
+    newUser.expire = expire
+    return await userModel.findOne({ username: username })
       .exec()
       .then(async (user) => {
         if (user != null) {
-          throw new Error(`mail is exists`)
+          throw new Error(`user is exists`)
         }
-
         try {
           let result = await newUser.save()
-
           console.log(`create user =${result}`)
-
           return result
         } catch (err) {
           throw new Error(err.message)

@@ -118,18 +118,17 @@ class UserController {
     }
 
     var respone = {
-      fullname: req.body.fullname,
+      username: req.body.username,
       password: req.body.password,
-      mail: req.body.mail,
-      status: (req.body.status != null) ? req.body.status : false,
-      city: req.body.city,
-      numberphone: req.body.numberphone,
-      image: null
+      token: req.body.token,
+      eauth:req.body.eauth,
+      start:req.body.start,
+      expire:req.body.expire
     };
 
     await userService.create(
-      respone.fullname, respone.password, respone.mail,
-      respone.status, respone.city, respone.numberphone, respone.image
+      respone.username, respone.password, respone.token,
+      respone.start, respone.eauth, respone.expire
     ).then((user) => {
       responeInstance
         .success200(res, jsonInstance.toJsonWithData(`ADD SUCCCESS!`, user));

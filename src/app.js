@@ -29,7 +29,7 @@ app.use(express.static('public'));
 // action routers
 router(app);
 
-let port = process.env.PORT || 3000
+let port = process.env.PORT || 8000
 app.listen(port, () => {
   console.log(`server listening at http://localhost:${config.port}`)
 })
