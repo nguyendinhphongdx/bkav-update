@@ -10,8 +10,6 @@ const db = require('./app/config/db/index');
 const router = require('./routers/index')
 
 var app = express();
-
-
 // conncet to DB
 db.connect();
 
@@ -25,7 +23,15 @@ app.use(bodyParser.json());
 
 
 app.use(express.static('public'));
-
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Header", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  if (req.method === 'OPTIONS') {
+      res.header("Access-Control-Allow-Methoads", 'PUT, POST, PUT, DELETE, GET');
+      return res.status(200).json({});
+  }
+  next();
+});
 // action routers
 router(app);
 

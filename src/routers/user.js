@@ -16,5 +16,8 @@ router.get('/', function(req, res) {
       message: 'Welcome to USERS API'
   });
 });
+router.get('/api/test', (req, res) => {
+  res.send({ hello: 'world' });
+});
 
 module.exports = router;

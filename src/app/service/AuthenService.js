@@ -1,50 +1,30 @@
 const userModel = require('../models/User');
 const axios     = require('axios');
 const { header } = require('express-validator');
-const BASE_URL = `https://10.2.65.34:3000`
+const bcrypt = require("bcrypt");
+const createError = require('http-errors')
+const jwt = require('jsonwebtoken');
+const { authuShema } = require('../validate/authenSchema');
+const  {signAccessToken}  = require('../helpers/jwt_helper');
 class AuthenService {
-
-  //GET
-  async loginWithUsername(usrname, password) {
-    
-    return await userModel.findOne({ username: usrname, password: password })
-      .exec()
-      .then(async (user) => {
-        if (user == null) {
-          throw new Error(`wrong username or password`)
-        }
-
-        try {
-          user.status = true
-          let result = await user.save()
-
-          return result
-        } catch (err) {
-          throw new Error(err.message)
-        }
-
-      })
-      .catch((err) => {
-        throw new Error(err.message)
-      })
-  }
-
   //POST
-  async loginWithSatl(username, password,eauth) {
-      try {
-        // fetch data from a url endpoint
-        const dataUser = await axios.post('https://saltgui.bkav.com/api/login',{
-          username: username,
-          password: password,
-          eauth: eauth
-        },{ headers:{ 'Content-Type': 'application/json',"Access-Control-Allow-Origin": "*"}})
-        return dataUser.data.return[0];
-      } catch(error) {
-        console.log("error", error);
-        // appropriately handle the error
-      }
-      console.log("DATA"+dataUser);
-
+  async loginWithSalt(result) {
+    return await userModel.findOne({ username: result.username })
+            .exec()
+            .then(async (user) => {
+              if(user == null){
+                throw createError.NotFound('User not registered');
+              }
+              try {
+                let token = jwt.sign( {"_id":user._id},'secret',  { noTimestamp:true, expiresIn: '1h' });
+                user.token = token;
+                let res = await user.save();
+                console.log(res);
+                return res;
+              } catch (error) {
+                throw new Error("error.message "+error.message)
+              }
+            })
   }
   async logoutWithId(idUser) {
 
@@ -54,16 +34,12 @@ class AuthenService {
         if (user == null) {
           throw new Error(`wrong mail or password`)
         }
-
         return user
       })
       .catch((err) => {
         throw new Error(err.message)
       })
   }
-
-
-
 }
 
 module.exports = new AuthenService;
