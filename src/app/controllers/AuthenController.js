@@ -24,7 +24,6 @@ class AuthenController {
       const result = await authuShema.validateAsync(respone);
       await authenService.loginWithSalt(result)
         .then((user) => {
-          console.log("user DCM" +user);
           responeInstance
             .success200(res, jsonInstance.toJsonWithData(`LOGIN SUCCCESS!`, user));
         })
@@ -41,7 +40,6 @@ class AuthenController {
 
   async logout(req, res) {
     let id = req.params.id
-
     await authenService.logoutWithId(id)
       .then((user) => {
         responeInstance
@@ -51,6 +49,10 @@ class AuthenController {
         responeInstance
           .error400(res, jsonInstance.jsonNoData(err.message));
       })
+  }
+  async secure(req,res){
+      // all secured routes goes here
+  res.send('I am secured...')
   }
 
 }

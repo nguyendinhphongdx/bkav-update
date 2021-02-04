@@ -28,7 +28,7 @@ error500 = (res) => {
 }
 
 success200 = (res, jsonMessage) => {
-  console.log(">>> success200")
+  console.log(">>> success 200")
   return res.status(200).json(jsonMessage)
 }
 

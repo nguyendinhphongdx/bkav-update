@@ -1,18 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const versionSchema = new mongoose.Schema({
-   version_name: {
-       type: String,
-       required: true,
-       min:3
-   },
-   type_file:{
-       type: String,
-       required: true,
-    },
-    total_size:{type: Number},
-    description:{type: String}
-},{ timestamps:true });
+const Version = new mongoose.Schema({
+  versionName: { type: String },
+  typeFile: { type: String },
+  totalSize: { type: Number },
+  description: { type: String },
+  idDeviceType:{type:String},
+  createAt: { type: Number, default: Date.now().valueOf() },
+  updateAt: { type: Number, default: Date.now().valueOf() },
+});
 
-
-module.exports = mongoose.model('Version',versionSchema);
+module.exports = mongoose.model("Version", Version);

@@ -1,12 +1,12 @@
 const JWT = require('jsonwebtoken');
 const creatError = require('http-errors');
 module.exports = {
-    signAccessToken: (id) => {
+    signAccessToken: (user) => {
         return new Promise((resolve, reject) => {
             const options = {
                 // expiresIn: '16s',
             }
-            JWT.sign({ "_id":id }, process.env.ACCESS_TOKEN_SECRET, options, (err, token) => {
+            JWT.sign({ "_id":user }, process.env.ACCESS_TOKEN_SECRET, options, (err, token) => {
                 if (err) reject(creatError.InternalServerError());
                 resolve(token);
             })
