@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 // action routers
 router(app);
-
+// app.use('/ftp', express.static('public'), serveIndex('public', {'icons': true}));
 let port = process.env.PORT || 8000
 app.listen(port, () => {
   console.log(`server listening at http://localhost:${config.port}`)

@@ -4,11 +4,13 @@ const authenRouter = require("./authen");
 const versionRouter = require("./version");
 const testRouter = require("./test");
 const deviceTypeRouter = require("./devicetype");
+const testUpload = require("./testUpload");
 function route(app) {
   app.use("/user", userRouter);
   app.use("/authen", authenRouter);
   app.use("/test", testRouter);
   app.use("/devicetype", deviceTypeRouter);
+  app.use("/upload",testUpload);
   // app.use('/versions',version);
   // app.use('/devices',device);
   // app.use('/reports', reports);

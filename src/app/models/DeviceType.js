@@ -1,6 +1,7 @@
 const mongosee = require("mongoose");
 const Schema = mongosee.Schema;
 const Version = require('./Version');
+const Alert = require('./Alert');
 const DeviceType = new Schema({
   idUser:{type: String},
   name: { type: String },

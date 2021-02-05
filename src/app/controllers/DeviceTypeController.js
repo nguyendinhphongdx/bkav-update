@@ -5,7 +5,6 @@ const authenService = require("../service/AuthenService");
 const devicetypeService = require("../service/DeviceTypeService");
 const { authuShema } = require("../validate/authenSchema");
 const createError = require("http-errors");
-const userModel = require("../models/User");
 const versionSerive = require("../service/VersionService");
 class DeviceTypeController {
   //POST
@@ -67,21 +66,27 @@ class DeviceTypeController {
     }
   }
   async addVersion(req, res) {
-    const { versionName, description, idDeviceType } = req.body;
-    if (versionName && idDeviceType && description) {
-      console.log("iD type `{idDeviceType}`" + idDeviceType);
+    // const { versionName, description, idDeviceType } = req.body;
+    var response = {
+      versionName: req.body.versionName,
+      description: req.body.description, 
+      idDeviceType: req.body.idDeviceType,
+    };
+    if (response.versionName && response.description && response.idDeviceType) {
+      console.log("iD type `{idDeviceType}`" + response.idDeviceType);
       await versionSerive
-        .createVersion(versionName, description, idDeviceType)
+        .createVersion(response.versionName, response.description, response.idDeviceType)
         .then(async (device) => {
           console.log(`create version =${device}`);
           await devicetypeService
-            .addVersion(device, idDeviceType)
+            .addVersion(device, response.idDeviceType)
             .then((version) => {
               responeInstance.success200(
                 res,
                 jsonInstance.toJsonWithData(`create successfully`, version)
               );
             });
+            console.log(`Result data = ${res}`);
         })
         .catch((err) => {
           responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
