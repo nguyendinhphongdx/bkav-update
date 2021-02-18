@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const authenService = require('../service/AuthenService');
 const userService  = require('../service/UserService');
 const SaltAPI = require('../helpers/saltApi');
-const Salt = require('salt-api');
+const netApi = require('../helpers/netApi');
 
 
 class TestController {
@@ -14,8 +14,6 @@ class TestController {
             url: "https://saltgui.bkav.com/api",
             username: "saltapi",
             password: "saltapi",
-            eauth:"pam"
-            
         });
         
         salt.ready.then(()=>{
@@ -30,6 +28,10 @@ class TestController {
             }).catch(e => console.error(e));
 
         })
+    }
+    async testPing(req, res){
+       netApi.initData
+        
     }
 
 }
