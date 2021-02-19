@@ -3,7 +3,10 @@ const router = express.Router();
 const path = require('path');
 const multer = require("multer");
 const testRouter = require('../app/controllers/TestController');
-router.get('/salt', testRouter.test);
+const axios = require('axios');
+const p = require('phin');
+
+router.post('/netapi',testRouter.testPing);
 
 router.get('/', function(req, res) {
   res.json({

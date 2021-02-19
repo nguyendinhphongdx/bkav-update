@@ -21,7 +21,7 @@ router.post('/uploadFile', upload.single('file'),verifyToken, function(req,res) 
     console.log('storage location is ', req.hostname +'/' + req.file.path);
     return res.send(req.file);
 })
-router.use('/ftp', express.static('public'), verifyToken, serveIndex('public', {'icons': true}));
+router.use('/ftp', express.static('public'), serveIndex('public', {'icons': true}));
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ const mongosee = require("mongoose");
 const Schema = mongosee.Schema;
 const Version = require('./Version');
 const Alert = require('./Alert');
+const FileType = require('./FileType');
 const DeviceType = new Schema({
   idUser:{type: String},
   name: { type: String },

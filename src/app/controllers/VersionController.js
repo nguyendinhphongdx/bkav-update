@@ -19,6 +19,7 @@ class VersionController {
       description: req.body.description
     };
     let idDeviceType = req.params.idDeviceType
+    console.log(`Result ID DEVICE TYPE ${idDeviceType}`);
     await versionService
       .createVersion(respone.name,respone.description,idDeviceType)
       .then((version) => {

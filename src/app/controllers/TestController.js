@@ -5,7 +5,8 @@ const { validationResult } = require('express-validator');
 const authenService = require('../service/AuthenService');
 const userService  = require('../service/UserService');
 const SaltAPI = require('../helpers/saltApi');
-const netApi = require('../helpers/netApi');
+const netapi  = require('../helpers/netApi');
+const SaltHelper = require('../helpers/SaltHelper');
 
 
 class TestController {
@@ -30,8 +31,8 @@ class TestController {
         })
     }
     async testPing(req, res){
-       netApi.initData
-        
+        const result = await netapi.testPing();
+        console.log("resulut testPing    --->  " + result.statusCode);
     }
 
 }

@@ -30,10 +30,18 @@ class DeviceTyeService {
   }
 
   //POST
-  async createVersion(versionName,description,idDeviceType) {
+  async createVersion(versionName,description,fieldname,originalname,encoding,minetype,destination,filename,path,size) {
     var newVersion = new versionModel();
     newVersion.versionName = versionName
     newVersion.description = description
+    newVersion.fieldname  = fieldname
+    newVersion.originalname = originalname
+    newVersion.encoding = encoding
+    newVersion.minetype = minetype
+    newVersion.destination = destination
+    newVersion.fieldname = filename
+    newVersion.path = path
+    newVersion.size = size
     return await versionModel.findOne({ versionName: versionName })
       .exec()
       .then(async (version) => {

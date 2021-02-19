@@ -67,15 +67,41 @@ class DeviceTypeController {
   }
   async addVersion(req, res) {
     // const { versionName, description, idDeviceType } = req.body;
+    
     var response = {
       versionName: req.body.versionName,
-      description: req.body.description, 
+      description: req.body.description,
       idDeviceType: req.body.idDeviceType,
+      fieldname: req.file.fieldname,
+      originalname: req.file.originalname,
+      encoding: req.file.encoding,
+      minetype: req.file.minetype,
+      destination: req.file.destination,
+      filename: req.file.filename,
+      path: req.file.path,
+      size: req.file.size,
     };
-    if (response.versionName && response.description && response.idDeviceType) {
-      console.log("iD type `{idDeviceType}`" + response.idDeviceType);
+
+    if (
+      response.versionName &&
+      response.description &&
+      response.idDeviceType
+    ) {
+      console.log(`fileName ${response.filename}`);
+    
       await versionSerive
-        .createVersion(response.versionName, response.description, response.idDeviceType)
+        .createVersion(
+          response.versionName,
+          response.description,
+          response.fieldname,
+          response.originalname,
+          response.encoding,
+          response.minetype,
+          response.destination,
+          response.filename,
+          response.path,
+          response.size
+        )
         .then(async (device) => {
           console.log(`create version =${device}`);
           await devicetypeService
@@ -86,7 +112,7 @@ class DeviceTypeController {
                 jsonInstance.toJsonWithData(`create successfully`, version)
               );
             });
-            console.log(`Result data = ${res}`);
+          console.log(`Result data = ${res}`);
         })
         .catch((err) => {
           responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
