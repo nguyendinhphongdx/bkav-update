@@ -68,23 +68,45 @@ class SaltStackService {
       console.log("error Service" + error.message);
     }
   }
+  //POST
   async getMinionns() {
     const token = await saltApi.initToken();
+    let data = [];
     try {
       const res = await axios.get(
-        `https://saltgui.bkav.com/api
-        /minions`,
+        "https://saltgui.bkav.com/api/minions",
         {
           headers: { "X-Auth-Token": token },
           contentType: "application/json",
         }
       );
-      return res.data.return;
+      // console.log("Minions "+ JSON.stringify(res.data.return[0]));
+      // data.push(res.data.return[0])
+      // console.log("ARRAY" + data.length);
+      // console.log("arrray data base  " + JSON.stringify(Object.entries(res.data.return[0])));
+      return Object.entries(res.data.return[0]);
     } catch (error) {
       console.log("error Service" + error.message);
     }
   }
-  
+  //POST
+  async funcKeys(fun, client, match) {
+    const token = await saltApi.initToken();
+    let form = { fun, client, match };
+    if (fun) form.fun = fun;
+    if (client) form.client = client;
+    if (match) form.match = match;
+    console.log("Form" + JSON.stringify(form));
+    try {
+      const res = await axios.post("https://saltgui.bkav.com/api/", form, {
+        headers: { "X-Auth-Token": token },
+        contentType: "application/json",
+      });
+      return res.data.return[0];
+    } catch (error) {
+      console.log("error Service" + error.message);
+    }
+  }
 }
 
 module.exports = new SaltStackService();
