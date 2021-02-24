@@ -4,8 +4,12 @@ const Gateway = require("./smsGateway");
 const Alert  = require("./Alert");
 const User = require("./User");
 const Licence = require("./Licence");
-const Device = new Schema({
-  groupName:{type: String},
+const Version = require("./Version");
+const Device = require("./Device");
+
+
+const GroupDevice = new Schema({
+  name:{type: String},
   updateType: {
     type: String,
     enum: ["auto", "manual"],
@@ -16,9 +20,9 @@ const Device = new Schema({
   user: {type:[User.schema],default:[]},
   ipAdress:{type: String},
   alert:{type: [Alert.schema],default:[]},
-  licence:{type:[Licence.schema],default:[] },
+  path:{type: String },
   deviceType:{type:[Device.schema],default:[]},
   createAt: { type: Number, default: Date.now().valueOf() },
   updateAt: { type: Number, default: Date.now().valueOf() },
 });
-module.exports = mongosee.model("DeviceType", DeviceType);
+module.exports = mongosee.model("GroupDevice", GroupDevice);

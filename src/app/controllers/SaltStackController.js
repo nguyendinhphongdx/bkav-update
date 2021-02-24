@@ -1,3 +1,4 @@
+const { db } = require("../models/User");
 const saltService = require("../service/SaltStackService");
 const jsonInstance = require("../utils/JsonUtils");
 const responeInstance = require("../utils/ResponeUtils");
@@ -57,6 +58,7 @@ class SaltStackController {
     .getMinionns()
     .then( async (data) => {
     console.log("DATA" + data);
+  
       responeInstance.success200(res,jsonInstance.toJsonWithData(`SUCCESS`,data))
       // for (let i = 0; i < data.length; i++)
       //   {
