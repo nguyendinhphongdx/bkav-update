@@ -7,7 +7,7 @@ const DeviceType = new Schema({
   idUser:{type: String},
   name: { type: String },
   description:{type: String},
-  version:{type:[Version.schema],default:[]},
+  versions:{type:[Version.schema],default:[]},
   createAt: { type: Number, default: Date.now().valueOf() },
   updateAt: { type: Number, default: Date.now().valueOf() },
 });

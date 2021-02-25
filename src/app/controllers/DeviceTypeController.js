@@ -66,8 +66,6 @@ class DeviceTypeController {
     }
   }
   async addVersion(req, res) {
-    // const { versionName, description, idDeviceType } = req.body;
-    
     var response = {
       versionName: req.body.versionName,
       description: req.body.description,
@@ -81,7 +79,15 @@ class DeviceTypeController {
       path: req.file.path,
       size: req.file.size,
     };
-
+    // const { versionName, description, idDeviceType } = req.body;
+    const errors = validationResult(response);
+    if (!errors.isEmpty()) {
+      responeInstance.error422(
+        res,
+        jsonInstance.jsonNoData({ errors: errors.array()})
+      );
+      return;
+    }
     if (
       response.versionName &&
       response.description &&
@@ -121,6 +127,41 @@ class DeviceTypeController {
       responeInstance.error400(res, jsonInstance.jsonNoData(`url error`));
     }
   }
+  async deleteService(req, res) {
+    var response = {
+      idDeviceType: req.body.idDeviceType
+    };
+    if (response.idDeviceType != null) {
+      await devicetypeService
+        .deleteDeviceType(response.idDeviceType)
+        .then((device) => {
+          responeInstance.success200(
+            res,
+            jsonInstance.toJsonWithData("SUCCESS", device)
+          );
+        })
+        .catch((err) => {
+          responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
+        });
+    } else {
+      responeInstance.error400(res, jsonInstance.jsonNoData(`URL ERROR`));
+    }
+  }
+  async deleteVerInDeviceType(req, res) {
+    var response = {
+      idDeviceType: req.body.idDeviceType,
+      idVersion: req.body.idVersion
+    }
+    await devicetypeService.deleteVersionInService(response.idDeviceType,response.idVersion)
+    .then((device) => {
+      responeInstance.success200(res, jsonInstance.toJsonWithData(`SUCCESS`,device));
+    })
+    .catch((err) => {
+      responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
+    })
+  }
+
+
 }
 
 module.exports = new DeviceTypeController();

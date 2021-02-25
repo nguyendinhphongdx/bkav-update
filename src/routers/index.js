@@ -8,6 +8,7 @@ const testUpload = require("./testUpload");
 const saltstack = require("./saltstack");
 const device =   require("./device");
 const group = require("./group");
+
 function route(app) {
   app.use("/user", userRouter);
   app.use("/authen", authenRouter);
@@ -16,7 +17,7 @@ function route(app) {
   app.use("/upload",testUpload);
   app.use("/saltstack",saltstack);
   app.use("/group",group);
-  // app.use('/versions',version);
+  app.use('/version',versionRouter);
   // app.use('/devices',device);
   // app.use('/reports', reports);
   // app.use('/loggings',loggoings);

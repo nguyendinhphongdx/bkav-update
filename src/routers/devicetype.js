@@ -19,4 +19,6 @@ router.post("/create", verifyToken, deviceRouter.createDeviceType);
 router.get("/getAll", verifyToken, deviceRouter.getAllDeviceType);
 router.get("/get/:id", verifyToken, deviceRouter.queryWithId);
 router.post("/add-version",verifyToken,upload.single('file'),deviceRouter.addVersion);
+router.post("/delete",verifyToken,deviceRouter.deleteService);
+router.post("/delete/version",deviceRouter.deleteVerInDeviceType);
 module.exports = router;

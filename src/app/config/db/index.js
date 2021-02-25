@@ -11,7 +11,7 @@ async function connect() {
       useCreateIndex: true
     });
 
-    console.log('connect succesfully!!!');
+    console.log('connected succesfully!!!');
   } catch (error) {
     console.log(`fail = ${error}`);
   }

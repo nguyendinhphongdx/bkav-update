@@ -11,6 +11,10 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 router.post('/add', verifyToken,versionRouter.createVersion);
+router.get('/getAll',verifyToken,versionRouter.queryAll);
+router.get('/get/:id',verifyToken,versionRouter.query);
+router.post('/delete',versionRouter.deleteVersion)
+
 
 
 

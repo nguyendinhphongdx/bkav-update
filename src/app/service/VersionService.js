@@ -60,6 +60,28 @@ class DeviceTyeService {
         throw new Error(err.message)
       })
   }
+  async deleteVersion(idVersion) {
+    console.log(idVersion);
+    return await versionModel.findById(idVersion)
+      .exec()
+      .then(async (version) => {
+        if (version == null) {
+          console.log("Version" + version);
+          throw new Error(`invalid version`)
+        }
+        try {
+          console.log(`Version ${version}`);
+          let result = await versionModel.findByIdAndDelete(version._id)
+          return result;
+        } catch (err) {
+          throw new Error(err.message)
+        }
+      })
+      .catch((err) => {
+        throw new Error(err.message)
+      })
+  }
+
 }
 
 module.exports = new DeviceTyeService;
