@@ -1,3 +1,4 @@
+const { version } = require("joi");
 const deviceTypeModel = require("../models/DeviceType");
 const versionService = require("../service/VersionService");
 class DeviceTyeService {
@@ -107,10 +108,8 @@ class DeviceTyeService {
           throw new Error(`invalid device`);
         }
         try {
-          // const ver = await device.versions.filter((ver) => ); 
           await deviceTypeModel.update({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
           let result = await device.save();
-          await versionService.deleteVersion(idVersion)
           return result;
         } catch (err) {
           throw new Error(err.message);

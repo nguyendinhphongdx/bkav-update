@@ -150,17 +150,19 @@ class DeviceTypeController {
     };
     if (response.idDeviceType != null) {
       console.log(response.idDeviceType);
-      await devicetypeService
-        .deleteVersion(response.idDeviceType, response.idVersion)
-        .then((device) => {
-          responeInstance.success200(
-            res,
-            jsonInstance.toJsonWithData("DELETE SUCCESS", device)
-          );
-        })
-        .catch((err) => {
-          responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
-        });
+      await devicetypeService.deleteVersion(response.idDeviceType, response.idVersion)
+      .then(async (data) => {
+        await versionSerive.deleteVersion(response.idVersion)
+          .then((result) => {
+            responeInstance.success200(
+              res,
+              jsonInstance.toJsonWithData(`delete success`, result)
+            )
+          })
+      })
+      .catch((err) => {
+        responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
+      });
     } else {
       responeInstance.error400(res, jsonInstance.jsonNoData(`URL ERROR`));
     }
