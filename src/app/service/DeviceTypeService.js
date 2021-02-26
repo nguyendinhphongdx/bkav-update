@@ -77,10 +77,10 @@ class DeviceTyeService {
         throw new Error(err.message);
       });
   }
-  async deleteDeviceType(idGroup) {
-    console.log(idGroup);
+  async deleteDeviceType(idDeviceType) {
+    console.log(idDeviceType);
     return await deviceTypeModel
-      .findById(idGroup)
+      .findById(idDeviceType)
       .exec()
       .then(async (devicetype) => {
         if (devicetype == null) {
@@ -98,51 +98,20 @@ class DeviceTyeService {
         throw new Error(err.message);
       });
   }
-  async deleteVersion(idDeviceType, idVersion) {
+  async deleteVersion(id, idVersion) {
     return await deviceTypeModel
-      .findById(idDeviceType)
-      .exec()
-      .then(async (deviceType) => {
-        if (deviceType == null) {
-          new Error(`invalid Service`);
-        }
-        console.log(deviceType);
-        // let version = deviceType.versions.filter(item => item._id == idVersion).first()
-        const ver = deviceType.version.filter(
-          (version) => version._id == idVersion
-        );
-        console.log("VER " + ver);
-        try {
-          console.log("VER " + deviceType);
-          // deviceType.version.removeAt(ver._id)
-          deviceType.version.removeWith(ver);
-          console.log("Device.Version " + deviceType.version.removeWith(ver));
-          // let result = await deviceType.save();
-          // await versionService.deleteVersion(version._id);
-          // return result;
-        } catch (error) {
-          throw new Error(error.message);
-        }
-      });
-  }
-  async deleteVersion1(idDeviceType, idVersion) {
-    console.log(idDeviceType + idVersion);
-    return await deviceTypeModel
-      .findById(idDeviceType)
+      .findById(id)
       .exec()
       .then(async (device) => {
         if (device == null) {
           throw new Error(`invalid device`);
         }
         try {
-          let ver = device.versions.filter((item) => item._id == idVersion);
-          // device.versions.removeWithId(ver);
-          console.log("vER" + ver);
-          console.log(device.version.findByIdAndDelete(ver._id));
+          // const ver = await device.versions.filter((ver) => ); 
+          const ver = deviceTypeModel.update({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
           let result = await device.save();
-          // await RoomService.deleteRoom(room._id, idUser)
-
-          return result;
+          await versionService.deleteVersion(idVersion)
+          return ver;
         } catch (err) {
           throw new Error(err.message);
         }

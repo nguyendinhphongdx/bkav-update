@@ -84,17 +84,13 @@ class DeviceTypeController {
     if (!errors.isEmpty()) {
       responeInstance.error422(
         res,
-        jsonInstance.jsonNoData({ errors: errors.array()})
+        jsonInstance.jsonNoData({ errors: errors.array() })
       );
       return;
     }
-    if (
-      response.versionName &&
-      response.description &&
-      response.idDeviceType
-    ) {
+    if (response.versionName && response.description && response.idDeviceType) {
       console.log(`fileName ${response.filename}`);
-    
+
       await versionSerive
         .createVersion(
           response.versionName,
@@ -129,7 +125,7 @@ class DeviceTypeController {
   }
   async deleteService(req, res) {
     var response = {
-      idDeviceType: req.body.idDeviceType
+      idDeviceType: req.body.idDeviceType,
     };
     if (response.idDeviceType != null) {
       await devicetypeService
@@ -150,18 +146,25 @@ class DeviceTypeController {
   async deleteVerInDeviceType(req, res) {
     var response = {
       idDeviceType: req.body.idDeviceType,
-      idVersion: req.body.idVersion
+      idVersion: req.body.idVersion,
+    };
+    if (response.idDeviceType != null) {
+      console.log(response.idDeviceType);
+      await devicetypeService
+        .deleteVersion(response.idDeviceType, response.idVersion)
+        .then((device) => {
+          responeInstance.success200(
+            res,
+            jsonInstance.toJsonWithData("DELETE SUCCESS", device)
+          );
+        })
+        .catch((err) => {
+          responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
+        });
+    } else {
+      responeInstance.error400(res, jsonInstance.jsonNoData(`URL ERROR`));
     }
-    await devicetypeService.deleteVersion1(response.idDeviceType,response.idVersion)
-    .then((device) => {
-      responeInstance.success200(res, jsonInstance.toJsonWithData(`SUCCESS`,device));
-    })
-    .catch((err) => {
-      responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
-    })
   }
-
-
 }
 
 module.exports = new DeviceTypeController();
