@@ -66,7 +66,7 @@ class DeviceTyeService {
         }
 
         try {
-          devicetype.version.push(version);
+          devicetype.versions.push(version);
           let result = await devicetype.save();
           return result;
         } catch (err) {
@@ -79,77 +79,76 @@ class DeviceTyeService {
   }
   async deleteDeviceType(idGroup) {
     console.log(idGroup);
-    return await deviceTypeModel.findById(idGroup)
+    return await deviceTypeModel
+      .findById(idGroup)
       .exec()
       .then(async (devicetype) => {
         if (devicetype == null) {
-          throw new Error(`invalid devicetype`)
+          throw new Error(`invalid devicetype`);
         }
         try {
           console.log(`Device Type ${devicetype}`);
-          let result = await deviceTypeModel.findByIdAndDelete(devicetype._id)
+          let result = await deviceTypeModel.findByIdAndDelete(devicetype._id);
           return result;
         } catch (err) {
-          throw new Error(err.message)
+          throw new Error(err.message);
         }
       })
       .catch((err) => {
-        throw new Error(err.message)
-      })
+        throw new Error(err.message);
+      });
   }
-  async deleteVersion(idDeviceType,idVersion) {
-    return await deviceTypeModel.findById(idDeviceType)
-    .exec()
-    .then(async (deviceType) => {
-      if(deviceType == null) {
-        new Error(`invalid Service`);
-      }
-      console.log(deviceType);
-      // let version = deviceType.versions.filter(item => item._id == idVersion).first()
-      const ver = deviceType.version.filter((version) => version._id == idVersion)
-      console.log("VER "+ ver);
-      try {
-        console.log("VER "+ deviceType);
-        // deviceType.version.removeAt(ver._id)
-        deviceType.version.removeWith(ver)
-        console.log("Device.Version " +deviceType.version.removeWith(ver));
-        // let result = await deviceType.save();
-        // await versionService.deleteVersion(version._id);
-        // return result;
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    })
+  async deleteVersion(idDeviceType, idVersion) {
+    return await deviceTypeModel
+      .findById(idDeviceType)
+      .exec()
+      .then(async (deviceType) => {
+        if (deviceType == null) {
+          new Error(`invalid Service`);
+        }
+        console.log(deviceType);
+        // let version = deviceType.versions.filter(item => item._id == idVersion).first()
+        const ver = deviceType.version.filter(
+          (version) => version._id == idVersion
+        );
+        console.log("VER " + ver);
+        try {
+          console.log("VER " + deviceType);
+          // deviceType.version.removeAt(ver._id)
+          deviceType.version.removeWith(ver);
+          console.log("Device.Version " + deviceType.version.removeWith(ver));
+          // let result = await deviceType.save();
+          // await versionService.deleteVersion(version._id);
+          // return result;
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      });
   }
-  async deleteVersionInService(idDeviceType, idVersion) {
+  async deleteVersion1(idDeviceType, idVersion) {
     console.log(idDeviceType + idVersion);
-    return await deviceTypeModel.findById(idDeviceType)
+    return await deviceTypeModel
+      .findById(idDeviceType)
       .exec()
       .then(async (device) => {
         if (device == null) {
-          throw new Error(`invalid device`)
+          throw new Error(`invalid device`);
         }
-
-
         try {
-          let room = device.versions.filter(item => item._id == idVersion)
-          console.log("ROOOM" + room);
-          
-          device.versions.removeWithId(room)
-          
-          // console.log(device.version.findByIdAndDelete(room._id));
-          let result = await device.save()
-
+          let ver = device.versions.filter((item) => item._id == idVersion);
+          device.versions.removeWithId(ver);
+          console.log(device.version.findByIdAndDelete(ver._id));
+          let result = await device.save();
           // await RoomService.deleteRoom(room._id, idUser)
 
-          return result
+          return result;
         } catch (err) {
-          throw new Error(err.message)
+          throw new Error(err.message);
         }
       })
       .catch((err) => {
-        throw new Error(err.message)
-      })
+        throw new Error(err.message);
+      });
   }
 }
 

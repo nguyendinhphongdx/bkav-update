@@ -152,7 +152,7 @@ class DeviceTypeController {
       idDeviceType: req.body.idDeviceType,
       idVersion: req.body.idVersion
     }
-    await devicetypeService.deleteVersionInService(response.idDeviceType,response.idVersion)
+    await devicetypeService.deleteVersion1(response.idDeviceType,response.idVersion)
     .then((device) => {
       responeInstance.success200(res, jsonInstance.toJsonWithData(`SUCCESS`,device));
     })
