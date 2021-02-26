@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const authenService = require('../service/AuthenService');
 const userService  = require('../service/UserService');
 const SaltAPI = require('../helpers/saltApi');
-const netapi  = require('../helpers/netApi');
+const netapi  = require('../helpers/netAPI');
 const SaltHelper = require('../helpers/SaltHelper');
 
 

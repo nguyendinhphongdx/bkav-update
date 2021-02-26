@@ -1,6 +1,6 @@
 const mongosee = require("mongoose");
 const Schema = mongosee.Schema;
-const Gateway = require("./smsGateway");
+const Gateway = require("./SmsGateway");
 const Alert  = require("./Alert");
 const User = require("./User");
 const Licence = require("./Licence");

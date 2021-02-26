@@ -163,7 +163,7 @@ class UserController {
       });
   }
 
-  validateParam = (param) => {
+  validateParam(param){
     return (
       param == "user" ||
       (param == "password") | (param == "mail") ||
