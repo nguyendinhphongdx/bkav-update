@@ -32,7 +32,7 @@ class GroupService {
 //       });
 //   }
 
-  POST
+  //POST
   async createGroup(name, path,typeUpdate) {
     var newGroup = new groupModel();
     newGroup.name = name;

@@ -136,7 +136,8 @@ class DeviceTyeService {
         }
         try {
           let ver = device.versions.filter((item) => item._id == idVersion);
-          device.versions.removeWithId(ver);
+          // device.versions.removeWithId(ver);
+          console.log("vER" + ver);
           console.log(device.version.findByIdAndDelete(ver._id));
           let result = await device.save();
           // await RoomService.deleteRoom(room._id, idUser)
