@@ -108,10 +108,10 @@ class DeviceTyeService {
         }
         try {
           // const ver = await device.versions.filter((ver) => ); 
-          const ver = deviceTypeModel.update({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
+          await deviceTypeModel.update({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
           let result = await device.save();
           await versionService.deleteVersion(idVersion)
-          return ver;
+          return result;
         } catch (err) {
           throw new Error(err.message);
         }
