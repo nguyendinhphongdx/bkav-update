@@ -91,8 +91,7 @@ class DeviceTypeController {
     if (response.versionName && response.description && response.idDeviceType) {
       console.log(`fileName ${response.filename}`);
 
-      await versionSerive
-        .createVersion(
+      await versionSerive.createVersion(
           response.versionName,
           response.description,
           response.fieldname,
@@ -102,10 +101,9 @@ class DeviceTypeController {
           response.destination,
           response.filename,
           response.path,
-          response.size
-        )
+          response.size)
         .then(async (device) => {
-          console.log(`create version =${device}`);
+          // console.log(`create version =${device}`);
           await devicetypeService
             .addVersion(device, response.idDeviceType)
             .then((version) => {
@@ -114,7 +112,7 @@ class DeviceTypeController {
                 jsonInstance.toJsonWithData(`create successfully`, version)
               );
             });
-          console.log(`Result data = ${res}`);
+          // console.log(`Result data = ${res}`);
         })
         .catch((err) => {
           responeInstance.error400(res, jsonInstance.jsonNoData(err.message));
@@ -149,7 +147,7 @@ class DeviceTypeController {
       idVersion: req.body.idVersion,
     };
     if (response.idDeviceType != null) {
-      console.log(response.idDeviceType);
+
       await devicetypeService.deleteVersion(response.idDeviceType, response.idVersion)
       .then(async (data) => {
         await versionSerive.deleteVersion(response.idVersion)

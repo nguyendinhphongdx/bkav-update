@@ -108,7 +108,7 @@ class DeviceTyeService {
           throw new Error(`invalid device`);
         }
         try {
-          await deviceTypeModel.update({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
+          await deviceTypeModel.updateOne({},{$pull:{"versions":{"_id":idVersion}}},{multi:true})
           let result = await device.save();
           return result;
         } catch (err) {

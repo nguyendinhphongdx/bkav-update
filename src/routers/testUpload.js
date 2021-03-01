@@ -22,6 +22,10 @@ router.post('/uploadFile', upload.single('file'),verifyToken, function(req,res) 
     return res.send(req.file);
 })
 router.use('/ftp', express.static('public'), serveIndex('public', {'icons': true}));
-
+router.use('/:filename',(req, res)=>{
+    const path = `${process.cwd()}/public/${req.params.filename}`;
+    console.log(path);
+    res.download(path);
+});
 
 module.exports = router;
