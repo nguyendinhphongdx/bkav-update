@@ -4,10 +4,12 @@ const path = require('path');
 const multer = require("multer");
 const saltrouter = require('../app/controllers/SaltStackController');
 const p = require('phin');
+const jsonInstance = require("../app/utils/JsonUtils");
+const responeInstance = require("../app/utils/ResponeUtils");
 const verifyToken = require("../app/helpers/tokenCheker");
 // const { exec } = require('child_process');
 var Client = require('ssh2').Client;
-
+const {NodeSSH} = require('node-ssh')
 var exec = require('child_process').exec;
 var conn = new Client();
 router.post('/netapi',verifyToken,saltrouter.func);
@@ -42,6 +44,33 @@ router.get('/ssh',function(req, res){
         password: '123456a@A!@#$'
       });
     
+})
+router.get('/node-ssh',async function(req, res){
+      let ssh = new NodeSSH()
+      await ssh.connect({
+        host: '10.2.65.34',
+        port: 22,
+        username: 'master',
+        password: '123456a@A!@#$'
+      });
+
+      let shellStream = await ssh.requestShell();
+
+      shellStream.on('data', (data) => {
+        let stringData = data.toString().trim();
+        if (stringData === "[sudo] password for root:") {
+          let pass = "123456a@A!@#$\n";
+          shellStream.write(pass);
+        }
+      });
+      shellStream.stderr.on('data', (data) => {
+        responeInstance.success200(
+          res,
+          jsonInstance.toJsonWithData(`SUCCCESS!`, data)
+        );
+      });
+      shellStream.write("sudo -i\n");
+  
 })
 function runCommands(array, callback) {
 
